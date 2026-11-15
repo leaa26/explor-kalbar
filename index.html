@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explor Kalbar - Pesona Pariwisata Kalimantan Barat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sage-dark: #2d6a4f;
+            --sage-medium: #40916c;
+            --sage-light: #d8f3dc;
+            --bg-cream: #f8f9fa;
+            --earthy-gold: #d4a373;
+        }
+        body { background-color: var(--bg-cream); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #212529; }
+        .navbar-custom { background-color: #ffffff; box-shadow: 0 2px 15px rgba(0,0,0,0.06); }
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80');
+            background-size: cover; background-position: center; border-radius: 20px; color: white; padding: 80px 30px; margin-bottom: 30px; text-align: center;
+        }
+        .card-destination {
+            border: none; border-radius: 16px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; background: #ffffff; box-shadow: 0 6px 20px rgba(0,0,0,0.06); height: 100%;
+        }
+        .card-destination:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
+        .card-img-wrapper { overflow: hidden; height: 200px; background-color: #e9ecef; }
+        .card-destination img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .card-destination:hover img { transform: scale(1.08); }
+        .btn-sage { background-color: var(--sage-dark); color: white; border-radius: 50px; font-weight: 600; padding: 8px 20px; }
+        .btn-sage:hover { background-color: #1b4332; color: white; }
+        .badge-sage { background-color: var(--sage-light); color: var(--sage-dark); font-weight: 600; }
+        .cat-badge { font-size: 0.75rem; padding: 5px 12px; border-radius: 50px; font-weight: 600; }
+        .cat-sejarah { background-color: #ffe5d9; color: #bc6c25; }
+        .cat-budaya { background-color: #e8dff5; color: #6a4c93; }
+        .cat-air { background-color: #d0f4de; color: #073b4c; }
+        .cat-gunung { background-color: #cbf3f0; color: #2ec4b6; }
+        .cat-taman { background-color: #ffb703; color: #ffffff; }
+        .filter-btn { border-radius: 50px; font-weight: 600; margin: 4px; padding: 8px 18px; border: 1px solid #ced4da; background: white; color: #495057; transition: all 0.2s; }
+        .filter-btn.active, .filter-btn:hover { background-color: var(--sage-dark); color: white; border-color: var(--sage-dark); }
+    
+        /* Animations & Reveal Effects */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .reveal-card {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+        .card-destination {
+            border: none; border-radius: 16px; overflow: hidden; 
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+            background: #ffffff; box-shadow: 0 6px 20px rgba(0,0,0,0.06); height: 100%;
+        }
+        .card-destination:hover { 
+            transform: translateY(-10px) scale(1.01); 
+            box-shadow: 0 20px 35px rgba(45,106,79,0.15); 
+        }
+        .card-img-wrapper img {
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .card-destination:hover img {
+            transform: scale(1.1);
+        }
+        .fa-heart.fa-solid {
+            animation: pulseHeart 0.3s ease;
+        }
+        @keyframes pulseHeart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top py-3">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-success" href="#"><i class="fa-solid fa-compass me-2"></i>Explor Kalbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active fw-semibold" href="#beranda"><i class="fa-solid fa-house me-1"></i> Beranda</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <button class="btn btn-outline-success position-relative rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#wishlistModal">
+                            <i class="fa-solid fa-heart text-danger me-1"></i> Wishlist
+                            <span id="wishlistCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-4" id="beranda">
+        <!-- Hero Section -->
+        <div class="hero-section shadow-sm">
+            <h1 class="display-5 fw-bold mb-3">Pesona Wisata Kalimantan Barat</h1>
+            <p class="lead mb-4 col-lg-8 mx-auto">Jelajahi keindahan alam, kekayaan budaya, tugu khatulistiwa, hingga surga bahari di seluruh kabupaten/kota Kalimantan Barat.</p>
+            <div class="input-group col-lg-6 mx-auto shadow-sm" style="max-width: 600px;">
+                <input type="text" id="searchInput" class="form-control form-control-lg rounded-start-pill ps-4" placeholder="Cari destinasi wisata atau lokasi...">
+                <button class="btn btn-sage px-4 rounded-end-pill" type="button" id="searchBtn"><i class="fa-solid fa-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="d-flex flex-wrap justify-content-center mb-4" id="categoryFilters">
+            <button class="filter-btn active" data-category="Semua">Semua Destinasi</button>
+            <button class="filter-btn" data-category="Tempat Bersejarah">Tempat Bersejarah</button>
+            <button class="filter-btn" data-category="Seni & Budaya">Seni & Budaya</button>
+            <button class="filter-btn" data-category="Wisata Air & Pantai">Wisata Air & Pantai</button>
+            <button class="filter-btn" data-category="Gunung & Alam">Gunung & Alam</button>
+            <button class="filter-btn" data-category="Taman Kota & Rekreasi">Taman Kota & Rekreasi</button>
+        </div>
+
+        <!-- Destinations Grid -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="destinationsGrid">
+            <!-- Dynamic Cards inserted here -->
+        </div>
+    </div>
+
+    <!-- Detail & Calculator Modal -->
+    <div class="modal fade" id="detailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title fw-bold" id="modalTitle">Detail Destinasi</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4" id="modalBody">
+                    <!-- Dynamic Detail Content & Calculator -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div class="modal fade" id="wishlistModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-heart me-2"></i>Wishlist Destinasi Saya</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4" id="wishlistModalBody">
+                    <!-- Wishlist items -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 bg-white border-top mt-5 text-muted small">
+        <p class="mb-0">&copy; 2026 Explor Kalbar. Dibuat dengan cinta untuk pariwisata Kalimantan Barat.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const DESTINASI_WISATA = [
+            {
+                "id": 1,
+                "nama": "Tugu Khatulistiwa",
+                "kategori": "Tempat Bersejarah",
+                "lokasi": "Jl. Khatulistiwa, Batu Layang, Pontianak Utara, Kota Pontianak",
+                "deskripsi": "Monumen bersejarah penanda garis lintang nol derajat bumi, ikon utama kota Pontianak.",
+                "rute_maps": "https://maps.google.com/?q=Tugu+Khatulistiwa+Pontianak",
+                "harga_tiket": 0, "harga_weekday": 0, "harga_weekend": 0,
+                "jam_operasional": "Setiap hari, 08.00 – 21.00 WIB",
+                "gambar": "foto wisata/tugu_khatulistiwa.jpeg",
+                "rating": 4.7,
+                "ulasan": ["Budi: Tempat bersejarah wajib dikunjungi!", "Siti: Bagus untuk edukasi."]
+            },
+            {
+                "id": 2,
+                "nama": "Taman Alun Kapuas",
+                "kategori": "Taman Kota & Rekreasi",
+                "lokasi": "Jl. Rahadi Usman, Tengah, Pontianak Kota",
+                "deskripsi": "Taman ikonik di tepian Sungai Kapuas, pusat bersantai sore hari dan menikmati senja.",
+                "rute_maps": "https://maps.google.com/?q=Taman+Alun+Kapuas+Pontianak",
+                "harga_tiket": 0, "harga_weekday": 0, "harga_weekend": 0,
+                "jam_operasional": "Setiap hari, 24 jam",
+                "gambar": "foto wisata/taman_alunkapuas.jpeg",
+                "rating": 4.8,
+                "ulasan": ["Rian: Pemandangan sore sangat indah.", "Dewi: Banyak kuliner enak."]
+            },
+            {
+                "id": 3,
+                "nama": "Rumah Radakng",
+                "kategori": "Seni & Budaya",
+                "lokasi": "Jl. Sutan Syahrir, Sungai Bangkong, Pontianak Kota",
+                "deskripsi": "Rumah adat tradisional Dayak terbesar di Kalimantan Barat dengan arsitektur megah.",
+                "rute_maps": "https://maps.google.com/?q=Rumah+Radakng+Pontianak",
+                "harga_tiket": 0, "harga_weekday": 0, "harga_weekend": 0,
+                "jam_operasional": "Setiap hari, 08.00 – 18.00 WIB",
+                "gambar": "foto wisata/rumah_radangk.jpeg",
+                "rating": 4.6,
+                "ulasan": ["Eko: Arsitekturnya megah.", "Lestari: Cocok untuk mengenal budaya Kalbar."]
+            },
+            {
+                "id": 4,
+                "nama": "Taman Digulis (Untan)",
+                "kategori": "Taman Kota & Rekreasi",
+                "lokasi": "Jl. Jenderal Ahmad Yani, Pontianak Tenggara",
+                "deskripsi": "Taman kota populer di kawasan Universitas Tanjungpura, favorit warga untuk olahraga.",
+                "rute_maps": "https://maps.google.com/?q=Taman+Digulis+Pontianak",
+                "harga_tiket": 0, "harga_weekday": 0, "harga_weekend": 0,
+                "jam_operasional": "Setiap hari, 24 jam",
+                "gambar": "foto wisata/taman_digulis.jpeg",
+                "rating": 4.7,
+                "ulasan": ["Andi: Tempat jogging terbaik.", "Siska: Suasana malamnya hidup."]
+            },
+            {
+                "id": 5,
+                "nama": "Paradis-Q Waterpark",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Komplek Gaia Bumi Raya City, Kubu Raya",
+                "deskripsi": "Wahana rekreasi air modern dan terbesar di Kubu Raya dengan berbagai seluncuran seru.",
+                "rute_maps": "https://maps.google.com/?q=Paradis-Q+Waterpark+Kubu+Raya",
+                "harga_tiket": 75000, "harga_weekday": 60000, "harga_weekend": 75000,
+                "jam_operasional": "Selasa – Minggu, 09.00 – 17.00 WIB",
+                "gambar": "foto wisata/paradis_ waterpark.jpeg",
+                "rating": 4.5,
+                "ulasan": ["Rian: Seru buat keluarga.", "Tina: Fasilitas bersih."]
+            },
+            {
+                "id": 6,
+                "nama": "Pantai Pasir Panjang",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Sedau, Singkawang Selatan, Kota Singkawang",
+                "deskripsi": "Pantai wisata populer berpasir putih dengan panorama laut Natuna yang memesona.",
+                "rute_maps": "https://maps.google.com/?q=Pantai+Pasir+Panjang+Singkawang",
+                "harga_tiket": 25000, "harga_weekday": 20000, "harga_weekend": 25000,
+                "jam_operasional": "Setiap hari, 06.00 – 18.00 WIB",
+                "gambar": "foto wisata/pantai_pasirpanjang.jpeg",
+                "rating": 4.5,
+                "ulasan": ["Joko: Ombak tenang.", "Maya: Sunset juara!"]
+            },
+            {
+                "id": 7,
+                "nama": "Sinka Island Park & Sinka Zoo",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Sedau, Singkawang Selatan, Kota Singkawang",
+                "deskripsi": "Kawasan wisata pantai dan kebun binatang yang terletak di Teluk Mak Jaru, Singkawang.",
+                "rute_maps": "https://maps.google.com/?q=Sinka+Island+Park+Singkawang",
+                "harga_tiket": 40000, "harga_weekday": 30000, "harga_weekend": 40000,
+                "jam_operasional": "Setiap hari, 08.00 – 17.00 WIB",
+                "gambar": "foto wisata/sinkaislandpark_sinkazoo.jpeg",
+                "rating": 4.6,
+                "ulasan": ["Doni: Pantai plus kebun binatang.", "Fitri: Pemandangan indah."]
+            },
+            {
+                "id": 8,
+                "nama": "Taman Rekreasi Tanjung Bajau",
+                "kategori": "Taman Kota & Rekreasi",
+                "lokasi": "Sedau, Singkawang Selatan, Kota Singkawang",
+                "deskripsi": "Taman hiburan keluarga dengan berbagai wahana permainan menarik dan panorama perbukitan.",
+                "rute_maps": "https://maps.google.com/?q=Taman+Rekreasi+Tanjung+Bajau+Singkawang",
+                "harga_tiket": 60000, "harga_weekday": 50000, "harga_weekend": 60000,
+                "jam_operasional": "Setiap hari, 08.00 – 17.30 WIB",
+                "gambar": "foto wisata/tamanrekreasi_tanjungbajau.jpeg",
+                "rating": 4.6,
+                "ulasan": ["Hendra: Wahana lengkap.", "Rika: Dekat pantai."]
+            },
+            {
+                "id": 9,
+                "nama": "Pantai Batu Burung",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Sedau, Singkawang Selatan, Kota Singkawang",
+                "deskripsi": "Pantai unik dengan batuan granit besar dan deburan ombak yang eksotis.",
+                "rute_maps": "https://maps.google.com/?q=Pantai+Batu+Burung+Singkawang",
+                "harga_tiket": 10000, "harga_weekday": 10000, "harga_weekend": 10000,
+                "jam_operasional": "Setiap hari, 24 jam",
+                "gambar": "foto wisata/pantai_batuburung.jpeg",
+                "rating": 4.4,
+                "ulasan": ["Yudi: Spot foto keren.", "Sari: Suasana tenang."]
+            },
+            {
+                "id": 10,
+                "nama": "Bukit Rindu Alam",
+                "kategori": "Gunung & Alam",
+                "lokasi": "Sedau, Singkawang Selatan, Kota Singkawang",
+                "deskripsi": "Destinasi perbukitan di Singkawang yang menawarkan pemandangan laut lepas dari ketinggian.",
+                "rute_maps": "https://maps.google.com/?q=Bukit+Rindu+Alam+Singkawang",
+                "harga_tiket": 20000, "harga_weekday": 15000, "harga_weekend": 20000,
+                "jam_operasional": "Setiap hari, 07.00 – 18.00 WIB",
+                "gambar": "foto wisata/bukit_rindualam.jpeg",
+                "rating": 4.5,
+                "ulasan": ["Bowo: Angin sepoi-sepoi.", "Lia: Cocok healing."]
+            },
+            {
+                "id": 11,
+                "nama": "Riam Paloh",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Sanggau Ledo, Kabupaten Bengkayang",
+                "deskripsi": "Kawasan wisata alam air terjun dan pemandian yang jernih di kaki pegunungan Bengkayang.",
+                "rute_maps": "https://maps.google.com/?q=Riam+Paloh+Bengkayang",
+                "harga_tiket": 10000, "harga_weekday": 10000, "harga_weekend": 10000,
+                "jam_operasional": "Setiap hari, 08.00 – 17.00 WIB",
+                "gambar": "foto wisata/riam_paloh.jpeg",
+                "rating": 4.6,
+                "ulasan": ["Dani: Air dingin dan segar.", "Wati: Asri."]
+            },
+            {
+                "id": 12,
+                "nama": "Pulau Lemukutan",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Sungai Raya Kepulauan, Kabupaten Bengkayang",
+                "deskripsi": "Surga bawah laut di Bengkayang, sangat populer untuk snorkeling, diving, dan wisata bahari.",
+                "rute_maps": "https://maps.google.com/?q=Pulau+Lemukutan+Bengkayang",
+                "harga_tiket": 50000, "harga_weekday": 50000, "harga_weekend": 50000,
+                "jam_operasional": "24 jam",
+                "gambar": "foto wisata/pulau_lemukutan.jpeg",
+                "rating": 4.8,
+                "ulasan": ["Rian: Terumbu karang cantik.", "Dewi: Tak terlupakan."]
+            },
+            {
+                "id": 13,
+                "nama": "Riam Merasap",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Seluas, Kabupaten Bengkayang",
+                "deskripsi": "Air terjun indah dikelilingi hutan hijau yang asri, sering dijuluki miniaturnya Niagara.",
+                "rute_maps": "https://maps.google.com/?q=Air+Terjun+Riam+Merasap+Bengkayang",
+                "harga_tiket": 15000, "harga_weekday": 10000, "harga_weekend": 15000,
+                "jam_operasional": "Setiap hari, 08.00 – 17.00 WIB",
+                "gambar": "foto wisata/riam_merasap.jpeg",
+                "rating": 4.7,
+                "ulasan": ["Agus: Sejuk dan jernih.", "Nina: Pemandangan indah."]
+            },
+            {
+                "id": 14,
+                "nama": "Danau Sentarum",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Taman Nasional Danau Sentarum, Kapuas Hulu",
+                "deskripsi": "Danau musiman unik di jantung Kalimantan yang kaya akan keanekaragaman hayati.",
+                "rute_maps": "https://maps.google.com/?q=Danau+Sentarum+Kapuas+Hulu",
+                "harga_tiket": 10000, "harga_weekday": 10000, "harga_weekend": 10000,
+                "jam_operasional": "Setiap hari, 08.00 – 17.00 WIB",
+                "gambar": "foto wisata/danau_sentarum.jpeg",
+                "rating": 4.8,
+                "ulasan": ["Eko: Alami menakjubkan.", "Sandi: Naik perahu seru."]
+            },
+            {
+                "id": 15,
+                "nama": "Taman Nasional Betung Kerihun",
+                "kategori": "Gunung & Alam",
+                "lokasi": "Embaloh Hulu, Kabupaten Kapuas Hulu",
+                "deskripsi": "Kawasan konservasi hutan hujan tropis pegunungan berbatasan dengan Serawak.",
+                "rute_maps": "https://maps.google.com/?q=Taman+Nasional+Betung+Kerihun",
+                "harga_tiket": 20000, "harga_weekday": 15000, "harga_weekend": 20000,
+                "jam_operasional": "Senin – Jumat, 08.00 – 16.00 WIB",
+                "gambar": "foto wisata/Tamannasional_betungkerihun.jpeg",
+                "rating": 4.7,
+                "ulasan": ["Rahmat: Petualangan sejati.", "Arief: Flora fauna kaya."]
+            },
+            {
+                "id": 16,
+                "nama": "Taman Nasional Gunung Palung",
+                "kategori": "Gunung & Alam",
+                "lokasi": "Kayong Utara & Ketapang",
+                "deskripsi": "Habitat alami orang utan liar serta ekosistem hutan hujan dataran rendah.",
+                "rute_maps": "https://maps.google.com/?q=Taman+Nasional+Gunung+Palung",
+                "harga_tiket": 15000, "harga_weekday": 10000, "harga_weekend": 15000,
+                "jam_operasional": "Senin – Sabtu, 08.00 – 16.00 WIB",
+                "gambar": "foto wisata/tamannasional_gunungpalung.jpeg",
+                "rating": 4.8,
+                "ulasan": ["Joko: Bisa lihat orang utan.", "Maya: Luar biasa."]
+            },
+            {
+                "id": 17,
+                "nama": "Pantai Pulau Datok",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Sukadana, Kabupaten Kayong Utara",
+                "deskripsi": "Pantai berpasir putih bersih dengan latar belakang laut yang tenang di Sukadana.",
+                "rute_maps": "https://maps.google.com/?q=Pantai+Pulau+Datok+Kayong+Utara",
+                "harga_tiket": 10000, "harga_weekday": 5000, "harga_weekend": 10000,
+                "jam_operasional": "Setiap hari, 06.00 – 18.00 WIB",
+                "gambar": "foto wisata/pantai_pulaudatok.jpeg",
+                "rating": 4.6,
+                "ulasan": ["Doni: Pas buat santai.", "Siti: Bersih."]
+            },
+            {
+                "id": 18,
+                "nama": "Air Terjun Enaut",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Meliau, Kabupaten Sanggau",
+                "deskripsi": "Air terjun tersembunyi yang asri dan sejuk di pedalaman Kabupaten Sanggau.",
+                "rute_maps": "https://maps.google.com/?q=Air+Terjun+Enaut+Sanggau",
+                "harga_tiket": 5000, "harga_weekday": 5000, "harga_weekend": 5000,
+                "jam_operasional": "Setiap hari, 08.00 – 17.00 WIB",
+                "gambar": "foto wisata/airterjunenaut.jpeg",
+                "rating": 4.5,
+                "ulasan": ["Budi: Jernih dan tenang.", "Rina: Cocok petualangan."]
+            },
+            {
+                "id": 19,
+                "nama": "Jungkat Beach",
+                "kategori": "Wisata Air & Pantai",
+                "lokasi": "Siantan, Kabupaten Mempawah",
+                "deskripsi": "Destinasi wisata pantai populer di Mempawah dengan berbagai fasilitas rekreasi keluarga.",
+                "rute_maps": "https://maps.google.com/?q=Jungkat+Beach+Mempawah",
+                "harga_tiket": 15000, "harga_weekday": 10000, "harga_weekend": 15000,
+                "jam_operasional": "Setiap hari, 09.00 – 21.00 WIB",
+                "gambar": "foto wisata/jungkat_beach.jpeg",
+                "rating": 4.4,
+                "ulasan": ["Andi: Dekat Pontianak.", "Dewi: Spot foto menarik."]
+            },
+            {
+                "id": 20,
+                "nama": "Batu Belimbing",
+                "kategori": "Tempat Bersejarah",
+                "lokasi": "Ngabang, Kabupaten Landak",
+                "deskripsi": "Formasi batuan unik berbentuk mirip buah belimbing raksasa di Landak.",
+                "rute_maps": "https://maps.google.com/?q=Batu+Belimbing+Ngabang+Landak",
+                "harga_tiket": 10000, "harga_weekday": 5000, "harga_weekend": 10000,
+                "jam_operasional": "Setiap hari, 08.00 – 18.00 WIB",
+                "gambar": "foto wisata/batu_belimbing.jpeg",
+                "rating": 4.6,
+                "ulasan": ["Hendra: Unik sekali.", "Sari: Geologi menarik."]
+            },
+            {
+                "id": 21,
+                "nama": "Bukit Kelam",
+                "kategori": "Gunung & Alam",
+                "lokasi": "Kabupaten Sintang",
+                "deskripsi": "Batu monolit raksasa tunggal terbesar di dunia dengan panorama alam dari ketinggian.",
+                "rute_maps": "https://maps.google.com/?q=Bukit+Kelam+Sintang",
+                "harga_tiket": 15000, "harga_weekday": 10000, "harga_weekend": 15000,
+                "jam_operasional": "Setiap hari, 06.00 – 18.00 WIB",
+                "gambar": "foto wisata/bukit_kelam.jpeg",
+                "rating": 4.9,
+                "ulasan": ["Tono: Megah sekali.", "Rini: Pemandangan awan indah."]
+            }
+        ];
+
+        let currentCategory = "Semua";
+        let searchQuery = "";
+        let wishlist = JSON.parse(localStorage.getItem("explor_kalbar_wishlist")) || [];
+
+        function getCatClass(cat) {
+            if (cat.includes("Bersejarah")) return "cat-sejarah";
+            if (cat.includes("Budaya")) return "cat-budaya";
+            if (cat.includes("Air")) return "cat-air";
+            if (cat.includes("Gunung")) return "cat-gunung";
+            return "cat-taman";
+        }
+
+        function renderDestinations() {
+            const grid = document.getElementById("destinationsGrid");
+            grid.innerHTML = "";
+
+            const filtered = DESTINASI_WISATA.filter(item => {
+                const matchCat = currentCategory === "Semua" || item.kategori === currentCategory;
+                const matchSearch = item.nama.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                    item.lokasi.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                    item.deskripsi.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-12 text-center py-5 text-muted"><h5>Tidak ada destinasi yang ditemukan.</h5></div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const isWishlisted = wishlist.includes(item.nama);
+                const col = document.createElement("div");
+                col.className = "col";
+                col.innerHTML = `
+                    <div class="card card-destination">
+                        <div class="card-img-wrapper position-relative">
+                            <img src="${item.gambar}" alt="${item.nama}" onerror="this.src='https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80'">
+                            <span class="position-absolute top-0 end-0 m-3 badge cat-badge ${getCatClass(item.kategori)} shadow-sm">${item.kategori}</span>
+                        </div>
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-warning small fw-bold"><i class="fa-solid fa-star me-1"></i>${item.rating}</span>
+                                <span class="text-muted small fw-semibold">
+    ${item.harga_weekday === 0 && item.harga_weekend === 0 ? 'Gratis' : 
+      item.harga_weekday === item.harga_weekend ? 'Rp ' + item.harga_weekend.toLocaleString('id-ID') : 
+      'WD: Rp ' + item.harga_weekday.toLocaleString('id-ID') + ' | WE: Rp ' + item.harga_weekend.toLocaleString('id-ID')}
+</span>
+                            </div>
+                            <h5 class="card-title fw-bold mb-2">${item.nama}</h5>
+                            <p class="card-text text-muted small mb-3"><i class="fa-solid fa-location-dot me-1 text-danger"></i>${item.lokasi}</p>
+                            <p class="card-text small text-secondary flex-grow-1">${item.deskripsi}</p>
+                            <div class="d-flex gap-2 mt-3">
+                                <button class="btn btn-sage btn-sm flex-grow-1 rounded-pill" onclick="openDetail(${item.id})">
+                                    <i class="fa-solid fa-calculator me-1"></i> Detail & Kalkulator
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm rounded-circle px-2" onclick="toggleWishlist('${item.nama}')" title="Wishlist">
+                                    <i class="${isWishlisted ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(col);
+            });
+
+            document.getElementById("wishlistCount").innerText = wishlist.length;
+            localStorage.setItem("explor_kalbar_wishlist", JSON.stringify(wishlist));
+        }
+
+        function openDetail(id) {
+            const item = DESTINASI_WISATA.find(d => d.id === id);
+            if (!item) return;
+
+            document.getElementById("modalTitle").innerText = item.nama;
+            const modalBody = document.getElementById("modalBody");
+
+            modalBody.innerHTML = `
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <img src="${item.gambar}" class="img-fluid rounded-4 shadow-sm w-100" style="height: 250px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80'">
+                        <div class="mt-3">
+                            <p class="small text-muted mb-1"><i class="fa-solid fa-clock text-success me-1"></i><strong>Jam Operasional:</strong> ${item.jam_operasional}</p>
+                            <p class="small text-muted mb-2"><i class="fa-solid fa-location-dot text-danger me-1"></i><strong>Lokasi:</strong> ${item.lokasi}</p>
+                            <a href="${item.rute_maps}" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill w-100"><i class="fa-solid fa-map-location-dot me-1"></i> Buka Google Maps</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex flex-column justify-content-between">
+                        <div>
+                            <span class="badge cat-badge ${getCatClass(item.kategori)} mb-2">${item.kategori}</span>
+                            <h5 class="fw-bold mb-2">${item.nama}</h5>
+                            <p class="text-secondary small mb-3">${item.deskripsi}</p>
+                            
+                            <!-- Kalkulator Biaya -->
+                            <div class="card bg-light border-0 p-3 rounded-3 mb-3">
+                                <h6 class="fw-bold small text-success mb-2"><i class="fa-solid fa-calculator me-1"></i>Kalkulator Estimasi Biaya</h6>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted mb-1">Hari Kunjungan:</label>
+                                        <select id="calcHari" class="form-select form-select-sm" onchange="calculateCost(${item.harga_weekday}, ${item.harga_weekend})">
+                                            <option value="weekday">Weekday (Senin-Jumat)</option>
+                                            <option value="weekend">Weekend (Sabtu-Minggu)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label small text-muted mb-1">Jumlah Orang:</label>
+                                        <input type="number" id="calcJumlah" class="form-control form-control-sm" value="1" min="1" oninput="calculateCost(${item.harga_weekday}, ${item.harga_weekend})">
+                                    </div>
+                                </div>
+                                <div class="small text-muted mb-1">
+                                    <div>Weekday: <strong>${item.harga_weekday === 0 ? 'Gratis' : 'Rp ' + item.harga_weekday.toLocaleString('id-ID')}</strong></div>
+                                    <div>Weekend: <strong>${item.harga_weekend === 0 ? 'Gratis' : 'Rp ' + item.harga_weekend.toLocaleString('id-ID')}</strong></div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                    <span class="small text-muted fw-bold">Total Estimasi:</span>
+                                    <span class="fw-bold text-success fs-6" id="calcTotal">Rp ${item.harga_weekday.toLocaleString('id-ID')}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h6 class="fw-bold small mb-1">Ulasan Pengunjung:</h6>
+                            <ul class="list-unstyled small text-muted mb-0">
+                                ${item.ulasan.map(u => `<li><i class="fa-solid fa-comment text-warning me-1"></i>${u}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            new bootstrap.Modal(document.getElementById("detailModal")).show();
+        }
+
+        function calculateCost(hargaWeekday, hargaWeekend) {
+            const hari = document.getElementById("calcHari").value;
+            const harga = hari === 'weekend' ? hargaWeekend : hargaWeekday;
+            const jumlah = parseInt(document.getElementById("calcJumlah").value) || 1;
+            const total = jumlah * harga;
+            document.getElementById("calcTotal").innerText = total === 0 ? "Gratis" : "Rp " + total.toLocaleString('id-ID');
+        }
+
+        function toggleWishlist(nama) {
+            const index = wishlist.indexOf(nama);
+            if (index > -1) {
+                wishlist.splice(index, 1);
+            } else {
+                wishlist.push(nama);
+            }
+            renderDestinations();
+            renderWishlistModal();
+        }
+
+        function renderWishlistModal() {
+            const body = document.getElementById("wishlistModalBody");
+            if (wishlist.length === 0) {
+                body.innerHTML = `<p class="text-center text-muted mb-0">Belum ada destinasi yang disimpan di wishlist.</p>`;
+                return;
+            }
+
+            body.innerHTML = `<ul class="list-group list-group-flush">` + 
+                wishlist.map(name => `
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        <span><i class="fa-solid fa-heart text-danger me-2"></i>${name}</span>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="toggleWishlist('${name}'); renderWishlistModal();">Hapus</button>
+                    </li>
+                `).join('') + 
+                `</ul>`;
+        }
+
+        // Event Listeners
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+                e.target.classList.add("active");
+                currentCategory = e.target.getAttribute("data-category");
+                renderDestinations();
+            });
+        });
+
+        document.getElementById("searchInput").addEventListener("input", (e) => {
+            searchQuery = e.target.value;
+            renderDestinations();
+        });
+
+        document.getElementById("searchBtn").addEventListener("click", () => {
+            searchQuery = document.getElementById("searchInput").value;
+            renderDestinations();
+        });
+
+        document.getElementById("wishlistModal").addEventListener("show.bs.modal", renderWishlistModal);
+
+        // Initial render
+        renderDestinations();
+    </script>
+</body>
+</html>
